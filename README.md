@@ -36,7 +36,7 @@ To install this package, save a proper package file for the target OS to the wor
 Examples
 -------------
         library(MetaQC)
-        libs <- c("proto", "foreach", ifelse(.Platform$OS.type == "unix", "doMC", "doSMP"))
+        libs <- c("proto", "foreach", ifelse(.Platform$OS.type == "unix", "doMC", "doSMP")) #doSMP is available to R > 2.11.0
         requireAll(libs)
 
         ## Toy Example
