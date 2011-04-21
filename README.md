@@ -19,15 +19,15 @@ Installation
 To install this package, save a proper package file for the target OS to the working directory, then run:
 
 ### Windows            
-[MetaQC_0.1.1.zip] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.1.zip)
+[MetaQC_0.1.1.zip] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.1.zip) \
         install.packages("MetaQC_0.1.1.zip", repos=NULL, type="win.binary")
 
 ### Mac OS X            
-[MetaQC_0.1.1.tgz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.1.tgz)
+[MetaQC_0.1.1.tgz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.1.tgz) \
         install.packages("MetaQC_0.1.1.tgz", repos=NULL, type="mac.binary")
 
 ### Linux            
-[MetaQC_0.1.1.tar.gz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.1.tar.gz)
+[MetaQC_0.1.1.tar.gz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.1.tar.gz) \
         install.packages("MetaQC_0.1.1.tar.gz", repos=NULL, type="source")
 
 Examples
@@ -45,10 +45,14 @@ Examples
 
         ## For parallel computation with all cores
         brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=FALSE, verbose=TRUE, isParallel=TRUE)
+        brainQC$RunQC(B=1e2) #need to be more than this (at least 1e4)
+        brainQC$Plot()
         brainQC$Cleanup() #neccessary for windows after using parallel processing
 
         ## For parallel computation with only 2 cores
         brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=FALSE, verbose=TRUE, isParallel=TRUE, nCores=2)
+        brainQC$RunQC(B=1e2) #need to be more than this (at least 1e4)
+        brainQC$Plot()
         brainQC$Cleanup() #neccessary for windows after using parallel processing
 
 References
