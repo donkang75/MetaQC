@@ -411,7 +411,11 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				}
 				
 				RunQC <- function(., nPath=NULL, B=1e4, pvalCut=.05, pvalAdjust=FALSE, fileForCQCp="c2.all.v3.0.symbols.gmt") {
-					stopifnot(file.exists(fileForCQCp))
+					if(!file.exists(fileForCQCp)) {
+						res <- Download("MetaQC",fileForCQCp)
+						if (inherits(res, "try-error") | res != 0L) 
+							stop(gettextf("download of file '%s' failed!\nPlease download gmt files at http://www.broadinstitute.org/gsea/downloads.jsp", fn))
+					}
 					
 					.GList <- paste(sub("(.+)[.][^.]+$", "\\1", basename(fileForCQCp)),".rda",sep="")
 					if(!(.$.useCache & file.exists(.GList)))
@@ -527,7 +531,11 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				}
 			})
 	
-	stopifnot(file.exists(GList))
+	if(!file.exists(GList)) {
+		res <- Download("MetaQC",GList)
+		if (inherits(res, "try-error") | res != 0L) 
+			stop(gettextf("download of file '%s' failed!\nPlease download gmt files at http://www.broadinstitute.org/gsea/downloads.jsp", fn))
+	}
 	
 	if(getFileExt(GList)=="gmt") {
 		.GList <- paste(getFileName(GList),".rda",sep="")

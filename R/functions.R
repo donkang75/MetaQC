@@ -133,3 +133,12 @@ union.rec <- function(.list, ...){
 	if(length(.list)==1) return(.list[[1]])
 	Recall(c(list(union(.list[[1]], .list[[2]], ...)), .list[-(1:2)]), ...)
 }
+
+Download <- function(pkg, fn) {
+	url <- paste("http://cloud.github.com/downloads/donkang75", pkg, fn, sep="/")
+	res <- try(download.file(url, fn, mode = "wb"))
+	return(res)
+}
+
+
+
