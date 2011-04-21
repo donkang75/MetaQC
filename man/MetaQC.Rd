@@ -26,7 +26,7 @@ The location of a file which has sets of gene symbol lists such as gmt files. By
 Whether to use multiple cores in parallel for fast computing. By default, it is false.
 }
   \item{nCores}{
-When isParallel is true, the number of cores can be set. By default, all cores in the machine are used.
+When isParallel is true, the number of cores can be set. By default, all cores in the machine are used in the unix-like machine, and 3 cores are used in windows.
 }
   \item{useCache}{
 Whether imported gmt file should be saved for the next use. By default, it is true.

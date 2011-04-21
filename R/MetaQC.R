@@ -2,7 +2,7 @@
 ### DList : list of data set matrices; names should be set
 ### GList : list of gene sets; names should be set // alternatively gmt file also allowed.
 ### isParallel : if multiple core parallel processing will be used (default: TRUE)
-### nCores : how many cores will be used (default: all)
+### nCores : how many cores will be used (default: all in unix-like os and 3 in windows)
 ### useCache : if save GList as cache for next use (default: TRUE)
 ### filterGenes : whether to use gene filtering (recommended to reduce dimension for fast computation)
 MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, filterGenes=TRUE, verbose=FALSE) {
@@ -49,8 +49,6 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 						.workers <- startWorkers()
 						registerDoSMP(.workers)
 					}
-				} else {
-					
 				}
 				
 				Cleanup <- function(.) {
