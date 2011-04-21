@@ -39,8 +39,9 @@ Don Kang (donkang75@gmail.com)
 }
 \examples{
 	\dontrun{
-	libs <- c("proto", "foreach", ifelse(.Platform$OS.type == "unix", "doMC", "doSMP"))
-	requireAll(libs)
+	    libs <- c("proto", "foreach", ifelse(.Platform$OS.type == "unix", 
+					"doMC", "doSMP")) #doSMP is available to R > 2.11.0
+	    requireAll(libs)
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
