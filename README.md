@@ -16,21 +16,19 @@ For each quality control index, the p-values from statistical hypothesis testing
 
 Installation
 --------------
-To install this package, download a proper file for the target OS using the above download button. You can also use this link directly 
-
-Then run:
+To install this package, save a proper package file for the target OS to the working directory, then run:
 
 ### Windows            
-https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.1.zip
-`> install.packages("MetaQC_0.1.1.zip", repos=NULL, type="win.binary")`
+[MetaQC_0.1.1.zip] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.1.zip)
+        install.packages("MetaQC_0.1.1.zip", repos=NULL, type="win.binary")
 
 ### Mac OS X            
-https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.1.tgz
-`> install.packages("MetaQC_0.1.1.tgz", repos=NULL, type="mac.binary")`
+[MetaQC_0.1.1.tgz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.1.tgz)
+        install.packages("MetaQC_0.1.1.tgz", repos=NULL, type="mac.binary")
 
 ### Linux            
-https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.1.tar.gz
-`> install.packages("MetaQC_0.1.1.tar.gz", repos=NULL, type="source")`
+[MetaQC_0.1.1.tar.gz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.1.tar.gz)
+        install.packages("MetaQC_0.1.1.tar.gz", repos=NULL, type="source")
 
 Examples
 -------------
