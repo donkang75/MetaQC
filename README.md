@@ -29,6 +29,7 @@ To install this package, download a proper file for the target OS. Then run:
 
 Examples
 --------
+'
 library(MetaQC)
 libs <- c("proto", "foreach", ifelse(.Platform$OS.type == "unix", "doMC", "doSMP"))
 requireAll(libs)
@@ -51,6 +52,7 @@ brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt",
 					filterGenes=FALSE, verbose=TRUE, isParallel=TRUE, nCores=2)
 }
 brainQC$Cleanup() #neccessary for windows after using parallel processing
+'
 
 References
 ----------
