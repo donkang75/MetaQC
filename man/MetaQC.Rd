@@ -65,21 +65,31 @@ Don Kang (donkang75@gmail.com)
 }
 \examples{
 \dontrun{
-## Toy Example
-data(brain) #already hugely filtered
-brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", 
-					filterGenes=FALSE, verbose=TRUE)
-brainQC$RunQC(B=1e2) #need to be more than this (at least 1e4)
-brainQC$Plot()
-brainQC$Print()
+    library(MetaQC)
+    libs <- c("proto", "foreach", ifelse(.Platform$OS.type == "unix", "doMC", "doSMP")) #doSMP is available to R > 2.11.0
+    requireAll(libs)
 
-## For parallel computation with all cores
-brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", 
-					filterGenes=FALSE, verbose=TRUE, isParallel=TRUE)
+    ## Toy Example
+    data(brain) #already hugely filtered
+    #Two default gmt files are automatically downloaded, otherwise it is required to locate it correctly.
+    #Refer to http://www.broadinstitute.org/gsea/downloads.jsp
+    brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=FALSE, verbose=TRUE)
+    brainQC$RunQC(B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt") #B is recommended to be >= 1e4 in real application
+    brainQC$Plot()
+    brainQC$Print()
 
-## For parallel computation with only 2 cores
-brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", 
-					filterGenes=FALSE, verbose=TRUE, isParallel=TRUE, nCores=2)
+    ## For parallel computation with all cores
+    brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=FALSE, verbose=TRUE, isParallel=TRUE)
+    brainQC$RunQC(B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt") #B is recommended to be >= 1e4 in real application
+    brainQC$Plot()
+    brainQC$Cleanup() #neccessary for windows after using parallel processing
+
+    ## For parallel computation with only 2 cores
+    brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=FALSE, verbose=TRUE, isParallel=TRUE, nCores=2)
+    brainQC$RunQC(B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt") #B is recommended to be >= 1e4 in real application
+    brainQC$Plot()
+    brainQC$Cleanup() #neccessary for windows after using parallel processing
+
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

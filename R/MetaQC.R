@@ -433,6 +433,11 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					.$.Scores <- .Scores[order(.ScoresRankSum),]  
 					.$.summary <- data.frame(Study=rownames(.$.Scores), round(.$.Scores,2), Rank=round(sort(.ScoresRankSum)/4,2)) #ncol(.Scores), signif
 					
+					.tmp <- cbind.data.frame(.$.summary[,1], 
+							foreach(d=iter(.$.summary[,-c(1,ncol(.$.summary))],by="row"),.combine=rbind) %do% {ifelse(d < -log10(.05/length(.$.DListF)), paste(d,'*',sep=''), d)},
+							.$.summary[,ncol(.$.summary)])
+					colnames(.tmp) <- colnames(.$.summary); rownames(.tmp)=1:nrow(.tmp)
+					.$.summary <- .tmp
 					return(.$.summary)
 				} 
 				
@@ -469,9 +474,11 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					.coord <- sweep(.coord, 2, .coord.dummy)
 					.coord.var <- sweep(.res$rotation, 2, .res$sdev, "*")[,1:2] #idea from FactoMineR
 					
-					#force good studies to be right-upper side
-					.coord.var <- sweep(.coord.var, 2, sign(.coord[1,]), '*')
-					.coord <- sweep(.coord, 2, sign(.coord[1,]), '*') 
+					#force plots be represented to right-upper side
+					.sign <- sign(colSums(sign(.coord.var)))
+					.sign <- ifelse(.sign>=0,1,-1)
+					.coord <- sweep(.coord, 2, .sign, '*') 
+					.coord.var <- sweep(.coord.var, 2, .sign, '*')
 					
 					.pctEig <- (.res$sdev^2/sum(.res$sdev^2)*100)[1:2]
 					
@@ -500,9 +507,11 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				
 				Print <- function(.) {
 					cat("Number of Studies: ", length(.$.DListF), fill=TRUE)
+					cat("", fill=TRUE)
 					cat("Dimension of Each Study:", fill=TRUE)
 					.studies <- sapply(.$.DListF,dim); rownames(.studies) <- c("Genes", "Samples")
 					print(.studies)
+					cat("", fill=TRUE)
 					if(!is.null(.$.summary)) {
 						cat("Quality Control Result:", fill=TRUE)
 						print(.$.summary)
