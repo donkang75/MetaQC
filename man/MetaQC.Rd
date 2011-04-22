@@ -26,7 +26,7 @@ The location of a file which has sets of gene symbol lists such as gmt files. By
 Whether to use multiple cores in parallel for fast computing. By default, it is false.
 }
   \item{nCores}{
-When isParallel is true, the number of cores can be set. By default, all cores in the machine are used in the unix-like machine, and 3 cores are used in windows.
+When isParallel is true, the number of cores can be set. By default, all cores in the machine are used in the unix-like machine, and 2 cores are used in windows.
 }
   \item{useCache}{
 Whether imported gmt file should be saved for the next use. By default, it is true.
@@ -65,11 +65,9 @@ Don Kang (donkang75@gmail.com)
 }
 \examples{
 \dontrun{
-    libs <- c("proto", "foreach", ifelse(.Platform$OS.type == "unix", 
-				"doMC", "doSMP")) #doSMP is available to R > 2.11.0
-    requireAll(libs)
+    requireAll(c("proto", "foreach"))
 
-    ## Toy Example
+   ## Toy Example
     data(brain) #already hugely filtered
     #Two default gmt files are automatically downloaded, 
 	#otherwise it is required to locate it correctly.
@@ -81,7 +79,17 @@ Don Kang (donkang75@gmail.com)
     brainQC$Plot()
     brainQC$Print()
 
+    ## For parallel computation with only 2 cores
+	## R >= 2.11.0 in windows to use parallel computing
+    brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", 
+			filterGenes=FALSE, verbose=TRUE, isParallel=TRUE, nCores=2)
+    #B is recommended to be >= 1e4 in real application
+	brainQC$RunQC(B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt")
+    brainQC$Plot()
+    brainQC$Cleanup() #neccessary for windows after using parallel processing
+
     ## For parallel computation with all cores
+	## In windows, only 2 cores are used if not specified explicitly
     brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", 
 			filterGenes=FALSE, verbose=TRUE, isParallel=TRUE)
 	#B is recommended to be >= 1e4 in real application					
@@ -89,11 +97,11 @@ Don Kang (donkang75@gmail.com)
     brainQC$Plot()
     brainQC$Cleanup() #neccessary for windows after using parallel processing
 
-    ## For parallel computation with only 2 cores
-    brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", 
-			filterGenes=FALSE, verbose=TRUE, isParallel=TRUE, nCores=2)
-    #B is recommended to be >= 1e4 in real application
-	brainQC$RunQC(B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt")
+	## Real Example which is used in the paper
+	#download & extract the brainFull file from http://donkang.110mb.com/files/brainFull.rda.tar
+	load("brainFull.rda")
+    brainQC <- MetaQC(brainFull, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=TRUE, verbose=TRUE, isParallel=TRUE)
+    brainQC$RunQC(B=1e4, fileForCQCp="c2.all.v3.0.symbols.gmt") #B was 1e5 in the paper
     brainQC$Plot()
     brainQC$Cleanup() #neccessary for windows after using parallel processing
 

@@ -2,7 +2,7 @@
 ### DList : list of data set matrices; names should be set
 ### GList : list of gene sets; names should be set // alternatively gmt file also allowed.
 ### isParallel : if multiple core parallel processing will be used (default: TRUE)
-### nCores : how many cores will be used (default: all in unix-like os and 3 in windows)
+### nCores : how many cores will be used (default: all in unix-like os and 2 in windows)
 ### useCache : if save GList as cache for next use (default: TRUE)
 ### filterGenes : whether to use gene filtering (recommended to reduce dimension for fast computation)
 MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, filterGenes=TRUE, verbose=FALSE) {
@@ -42,10 +42,12 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					if(!is.null(nCores))
 						options(cores=nCores)
 					if(.Platform$OS.type == "unix") {
-						require(doMC, quietly=T)
+						requireAll("doMC")
 						registerDoMC()
 					} else { #windows
-						require(doSMP, quietly=T)
+						requireAll("doSMP")
+						if(is.null(getOption('cores')))
+							options(cores=2)
 						.workers <- startWorkers()
 						registerDoSMP(.workers)
 					}
@@ -136,7 +138,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 						}
 						names(.pathList) <- sapply(.pathList,length)
 						
-						.ScoresNullDist <- foreach(b=1:.B, .combine=rbind) %dopar% {
+						.ScoresNullDist <- foreach(b=1:.B, .combine=rbind, .export="printLog") %dopar% {
 							
 							.g <- sample(nrow(.pathMat))							
 							.res <- sapply(.pathList, function(w) {
@@ -217,7 +219,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					printLog("AQCg Started", .$.verbose)
 					.PValMat <- if(is.null(.$.excluded)) .$.PValMat else .$.PValMat[,-.$.excluded]
 					
-					.$.AQCgScores <- foreach(i=1:ncol(.PValMat), .combine=c) %dopar% {
+					.$.AQCgScores <- foreach(i=1:ncol(.PValMat), .combine=c, .export="GetEWPval") %dopar% {
 						.dat <- .PValMat[which(!is.na(.PValMat[,i])),]
 						.dat <- .dat[rowSums(!is.na(.dat))>=3,]
 						#print(paste(i,nrow(.dat)))
@@ -248,7 +250,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					printLog("AQCp Started", .$.verbose)
 					.PathPValMat <- if(is.null(.$.excluded)) .$.PathPValMat else .$.PathPValMat[,-.$.excluded]
 					
-					.$.AQCpScores <- foreach(i=1:ncol(.PathPValMat), .combine=c) %dopar% {
+					.$.AQCpScores <- foreach(i=1:ncol(.PathPValMat), .combine=c, .export="GetEWPval") %dopar% {
 						.dat <- .PathPValMat[which(!is.na(.PathPValMat[,i])),]
 						.dat <- .dat[rowSums(!is.na(.dat))>=3,]
 						.reduced  <- GetEWPval(.dat[,-i])
@@ -276,7 +278,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					printLog("CQCg Started", .$.verbose)
 					if(is.null(.$.PValMat)) {
 						if(is.null(.$.PValList)) {
-							.$.PValList <- foreach(dat=iter(.$.DListF)) %dopar% {
+							.$.PValList <- foreach(dat=iter(.$.DListF), .export="GetPVal") %dopar% {
 								GetPVal(dat)
 							}
 							names(.$.PValList) <- .$.Names
@@ -293,7 +295,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					
 					.PValMat <- if(is.null(.$.excluded)) .$.PValMat else .$.PValMat[,-.$.excluded]
 					
-					.$.CQCgScores <- foreach(i=1:ncol(.PValMat), .combine=c) %dopar% {
+					.$.CQCgScores <- foreach(i=1:ncol(.PValMat), .combine=c, .export="GetEWPval") %dopar% {
 						.dat <- .PValMat[which(!is.na(.PValMat[,i])),]
 						.dat <- .dat[rowSums(!is.na(.dat))>=3,]
 						.reduced  <- GetEWPval(.dat[,-i])
@@ -308,7 +310,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				CQCp <- function(., .GList="c2.all.v3.0.symbols.rda") {
 					printLog("CQCp Started", .$.verbose)
 					if(is.null(.$.PValMat0)) {
-						.PValList <- foreach(dat=iter(.$.DListF)) %dopar% {
+						.PValList <- foreach(dat=iter(.$.DListF), .export="GetPval") %dopar% {
 							GetPVal(dat)
 						}
 						names(.PValList) <- .$.Names
@@ -348,7 +350,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					
 					.PathPValMat <- if(is.null(.$.excluded)) .$.PathPValMat else .$.PathPValMat[,-.$.excluded]
 					
-					.$.CQCpScores <- foreach(i=1:ncol(.PathPValMat), .combine=c) %dopar% {
+					.$.CQCpScores <- foreach(i=1:ncol(.PathPValMat), .combine=c, .export="GetEWPval") %dopar% {
 						.dat <- .PathPValMat[which(!is.na(.PathPValMat[,i])),]
 						.dat <- .dat[rowSums(!is.na(.dat))>=3,]
 						.reduced  <- GetEWPval(.dat[,-i])
