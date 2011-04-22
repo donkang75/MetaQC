@@ -310,7 +310,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				CQCp <- function(., .GList="c2.all.v3.0.symbols.rda") {
 					printLog("CQCp Started", .$.verbose)
 					if(is.null(.$.PValMat0)) {
-						.PValList <- foreach(dat=iter(.$.DListF), .export="GetPval") %dopar% {
+						.PValList <- foreach(dat=iter(.$.DListF), .export="GetPVal") %dopar% {
 							GetPVal(dat)
 						}
 						names(.PValList) <- .$.Names
