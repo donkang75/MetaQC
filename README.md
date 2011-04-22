@@ -48,13 +48,13 @@ Examples
         brainQC$Plot()
         brainQC$Print()
 
-        ## For parallel computation with all cores
+        ## For parallel computation with all cores (Although it is doable, it is not recommended in Windows)
         brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=FALSE, verbose=TRUE, isParallel=TRUE)
         brainQC$RunQC(B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt") #B is recommended to be >= 1e4 in real application
         brainQC$Plot()
         brainQC$Cleanup() #neccessary for windows after using parallel processing
 
-        ## For parallel computation with only 2 cores
+        ## For parallel computation with only 2 cores (Although it is doable, it is not recommended in Windows)
         brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=FALSE, verbose=TRUE, isParallel=TRUE, nCores=2)
         brainQC$RunQC(B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt") #B is recommended to be >= 1e4 in real application
         brainQC$Plot()
