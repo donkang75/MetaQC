@@ -66,7 +66,7 @@ Examples
 	    brainQC$Cleanup() #neccessary for windows after using parallel processing
 
 		## Real Example which is used in the paper
-		#download & extract the brainFull file from http://donkang.110mb.com/files/brainFull.rda.tar
+		#download & extract the brainFull file from https://github.com/downloads/donkang75/MetaQC/brainFull.rda.tar
 		load("brainFull.rda")
 	    brainQC <- MetaQC(brainFull, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=TRUE, verbose=TRUE, isParallel=TRUE)
 	    brainQC$RunQC(B=1e4, fileForCQCp="c2.all.v3.0.symbols.gmt") #B was 1e5 in the paper
