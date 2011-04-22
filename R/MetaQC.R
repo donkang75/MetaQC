@@ -52,7 +52,8 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				}
 				
 				Cleanup <- function(.) {
-					stopWorkers(.$.workers)
+					if(!is.null(.$.workers))
+						stopWorkers(.$.workers)
 				}
 								
 				.Initialize <- function(., .DList, .GList, .filterGenes) {
