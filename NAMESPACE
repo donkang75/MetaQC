@@ -1,4 +1,8 @@
 export( 
-MetaQC, 
+MetaQC,
+runQC,
+print.proto, 
+plot.proto,
+cleanup, 
 requireAll
 )

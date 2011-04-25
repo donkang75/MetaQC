@@ -1,33 +1,61 @@
-\name{MetaQC-package}
-\alias{MetaQC-package}
-\docType{package}
+\name{runQC}
+\alias{runQC}
+
 \title{
-MetaQC: Quantitative Quality Assessment for Inclusion/Exclusion Criteria of Genomic Meta-Analysis
+Command to execute quality control procedures.
 }
+
 \description{
-MetaQC implements our proposed quantitative quality control measures: (1) internal homogeneity of co-expression structure among studies (internal quality control; IQC); (2) external consistency of co-expression structure correlating with pathway database (external quality control; EQC); (3) accuracy of differentially expressed gene detection (accuracy quality control; AQCg) or pathway identification (AQCp); (4) consistency of differential expression ranking in genes (consistency quality control; CQCg) or pathways (CQCp). (See the reference for detailed explanation.)
-For each quality control index, the p-values from statistical hypothesis testing are minus log transformed and PCA biplots were applied to assist visualization and decision. Results generate systematic suggestions to exclude problematic studies in microarray meta-analysis and potentially can be extended to GWAS or other types of genomic meta-analysis. The identified problematic studies can be scrutinized to identify technical and biological causes (e.g. sample size, platform, tissue collection, preprocessing etc) of their bad quality or irreproducibility for final inclusion/exclusion decision.
+It it a utility function to RunQC method in MetaQC object.
+}
+
+\usage{
+runQC(QC, nPath=NULL, B=1e4, pvalCut=.05, 
+	pvalAdjust=FALSE, fileForCQCp="c2.all.v3.0.symbols.gmt")
+}
+
+\arguments{
+  \item{QC}{
+A proto R object which obtained by MetaQC function.
+}
+  \item{nPath}{
+The number of top pathways which would be used for EQC calculation. The top pathways are automatically determined by their mean rank of over significance among given studies. It is important that gene sets used for EQC are expected to have higher correlation than background.
+}
+  \item{B}{
+The number of permutation tests used for EQC calculation.
+}
+  \item{pvalCut}{
+P-value threshold used for AQC calculation.
+}
+  \item{pvalAdjust}{
+Whether to apply p-value adjustment due to multiple testing (B-H procedure is used).
+}
+  \item{fileForCQCp}{
+Gene set used for CQCp calculation. Usually larger gene set is used than EQC calculation. 
+}
+
 }
 \details{
-\tabular{ll}{
-Package: \tab MetaQC\cr
-Type: \tab Package\cr
-Version: \tab 0.1.4\cr
-Date: \tab 2011-04-24\cr
-License: \tab GPL-2\cr
-LazyLoad: \tab yes\cr
+%%  ~~ If necessary, more details than the description above ~~
 }
-}
-\author{
-Don Kang <donkang75@gmail.com>
+\value{
+A data frame showing a summary of each quality control score.
 }
 \references{
 Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (2011) Meta-QC: Quantitative Quality Assessment for Inclusion/Exclusion Criteria of Genomic Meta-Analysis. 
 }
-\keyword{ QualityControl }
-\keyword{ MetaAnalysis }% __ONLY ONE__ keyword per line
-\keyword{ Microarray }
+\author{
+Don Kang (donkang75@gmail.com)
+}
+\note{
+%%  ~~further notes~~
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
 \seealso{
+\code{\link{MetaQC}}
+%\code{\link{plot.catdes}},\code{\link{condes}}
 }
 \examples{
 \dontrun{
@@ -75,3 +103,8 @@ Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (2011) 
 
 }
 }
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ QualityControl }
+\keyword{ MetaAnalysis }% __ONLY ONE__ keyword per line
+\keyword{ Microarray }

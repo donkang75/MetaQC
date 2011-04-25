@@ -565,3 +565,11 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 	
 	return(.p)
 }
+
+plot.proto <- function(x, ...) {
+	x$Plot(...)
+}
+
+print.proto <- function(x, ...) {
+	x$Print(...)
+}

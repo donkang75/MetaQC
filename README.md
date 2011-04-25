@@ -19,19 +19,19 @@ Installation
 To install this package, save a proper package file for the target OS to the working directory, then run:
 
 ### Windows            
-[MetaQC_0.1.3.zip] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.3.zip)
+[MetaQC_0.1.4.zip] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.4.zip)
 
-        install.packages("MetaQC_0.1.3.zip", repos=NULL, type="win.binary")
+        install.packages("MetaQC_0.1.4.zip", repos=NULL, type="win.binary")
 
 ### Mac OS X            
-[MetaQC_0.1.3.tgz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.3.tgz)
+[MetaQC_0.1.4.tgz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.4.tgz)
 
-        install.packages("MetaQC_0.1.3.tgz", repos=NULL, type="mac.binary")
+        install.packages("MetaQC_0.1.4.tgz", repos=NULL, type="mac.binary")
 
 ### Linux            
-[MetaQC_0.1.3.tar.gz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.3.tar.gz)
+[MetaQC_0.1.4.tar.gz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.4.tar.gz)
 
-        install.packages("MetaQC_0.1.3.tar.gz", repos=NULL, type="source")
+        install.packages("MetaQC_0.1.4.tar.gz", repos=NULL, type="source")
 
 Examples
 -------------
@@ -45,33 +45,33 @@ Examples
 	    #Refer to http://www.broadinstitute.org/gsea/downloads.jsp
 	    brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=FALSE, verbose=TRUE)
 		#B is recommended to be >= 1e4 in real application					
-	    brainQC$RunQC(B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt") 
-	    brainQC$Plot()
-	    brainQC$Print()
+	  	runQC(brainQC, B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt") 
+	    brainQC
+		plot(brainQC)
 
 	    ## For parallel computation with only 2 cores
 		## R >= 2.11.0 in windows to use parallel computing
 	    brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=FALSE, verbose=TRUE, isParallel=TRUE, nCores=2)
 	    #B is recommended to be >= 1e4 in real application
-		brainQC$RunQC(B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt")
-	    brainQC$Plot()
-	    brainQC$Cleanup() #neccessary for windows after using parallel processing
+	  	runQC(brainQC, B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt") 
+		plot(brainQC)
+	    cleanup(brainQC) #neccessary for windows after using parallel processing
 
 	    ## For parallel computation with all cores
 		## In windows, only 2 cores are used if not specified explicitly
 	    brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=FALSE, verbose=TRUE, isParallel=TRUE)
 		#B is recommended to be >= 1e4 in real application					
-	    brainQC$RunQC(B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt")
-	    brainQC$Plot()
-	    brainQC$Cleanup() #neccessary for windows after using parallel processing
+	  	runQC(brainQC, B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt") 
+		plot(brainQC)
+	    cleanup(brainQC) #neccessary for windows after using parallel processing
 
 		## Real Example which is used in the paper
 		#download the brainFull file from https://github.com/downloads/donkang75/MetaQC/brainFull.rda
 		load("brainFull.rda")
 	    brainQC <- MetaQC(brainFull, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=TRUE, verbose=TRUE, isParallel=TRUE)
-	    brainQC$RunQC(B=1e4, fileForCQCp="c2.all.v3.0.symbols.gmt") #B was 1e5 in the paper
-	    brainQC$Plot()
-	    brainQC$Cleanup() #neccessary for windows after using parallel processing
+	  	runQC(brainQC, B=1e4, fileForCQCp="c2.all.v3.0.symbols.gmt") #B was 1e5 in the paper 
+		plot(brainQC)
+	    cleanup(brainQC) #neccessary for windows after using parallel processing
 
 References
 ----------
