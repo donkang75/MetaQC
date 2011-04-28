@@ -18,25 +18,13 @@ Installation
 --------------
 To install this package, save a proper package file for the target OS to the working directory, then run:
 
-### Windows            
-[MetaQC_0.1.4.zip] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.4.zip)
+### From CRAN (http://cran.r-project.org/)
 
-        install.packages("MetaQC_0.1.4.zip", repos=NULL, type="win.binary")
-
-### Mac OS X            
-[MetaQC_0.1.4.tgz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.4.tgz)
-
-        install.packages("MetaQC_0.1.4.tgz", repos=NULL, type="mac.binary")
-
-### Linux            
-[MetaQC_0.1.4.tar.gz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.4.tar.gz)
-
-        install.packages("MetaQC_0.1.4.tar.gz", repos=NULL, type="source")
+        install.packages('MetaQC', dependencies=TRUE)
 
 Examples
 -------------
-        library(MetaQC)
-	    requireAll(c("proto", "foreach"))
+            library(MetaQC)
 
 	   	## Toy Example
 	    data(brain) #already hugely filtered
