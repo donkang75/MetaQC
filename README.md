@@ -16,13 +16,27 @@ For each quality control index, the p-values from statistical hypothesis testing
 
 Installation
 --------------
-### From CRAN (http://cran.r-project.org/)
+To install this package, save a proper package file for the target OS to the working directory, then run:
 
-        install.packages('MetaQC', dependencies=TRUE)
+### Windows            
+[MetaQC_0.1.4.zip] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.4.zip)
+
+        install.packages("MetaQC_0.1.4.zip", repos=NULL, type="win.binary")
+
+### Mac OS X            
+[MetaQC_0.1.4.tgz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.4.tgz)
+
+        install.packages("MetaQC_0.1.4.tgz", repos=NULL, type="mac.binary")
+
+### Linux            
+[MetaQC_0.1.4.tar.gz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.4.tar.gz)
+
+        install.packages("MetaQC_0.1.4.tar.gz", repos=NULL, type="source")
 
 Examples
 -------------
-	    library(MetaQC)
+        library(MetaQC)
+	    requireAll(c("proto", "foreach"))
 
 	   	## Toy Example
 	    data(brain) #already hugely filtered
