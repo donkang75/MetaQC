@@ -24,7 +24,7 @@ To install this package, save a proper package file for the target OS to the wor
 
 Examples
 -------------
-            library(MetaQC)
+	    library(MetaQC)
 
 	   	## Toy Example
 	    data(brain) #already hugely filtered
