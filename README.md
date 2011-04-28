@@ -16,8 +16,6 @@ For each quality control index, the p-values from statistical hypothesis testing
 
 Installation
 --------------
-To install this package, save a proper package file for the target OS to the working directory, then run:
-
 ### From CRAN (http://cran.r-project.org/)
 
         install.packages('MetaQC', dependencies=TRUE)
