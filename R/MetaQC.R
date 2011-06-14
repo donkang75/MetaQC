@@ -1,4 +1,3 @@
-
 ### DList : list of data set matrices; names should be set
 ### GList : list of gene sets; names should be set // alternatively gmt file also allowed.
 ### isParallel : if multiple core parallel processing will be used (default: TRUE)
