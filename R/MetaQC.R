@@ -1,4 +1,3 @@
-
 ### DList : list of data set matrices; names should be set
 ### GList : list of gene sets; names should be set // alternatively gmt file also allowed.
 ### isParallel : if multiple core parallel processing will be used (default: TRUE)
@@ -57,7 +56,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					if(!is.null(.$.workers))
 						stopWorkers(.$.workers)
 				}
-								
+				
 				.Initialize <- function(., .DList, .GList, .filterGenes) {
 					stopifnot(all(length(names(.DList))>0) & all(!duplicated(names(.DList))))
 					stopifnot(all(sapply(.DList, function(x) length(table(colnames(x))))==2)) #currently support only two classes
@@ -84,7 +83,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					}
 					names(.$.DListF) <- .$.Names
 				}
-							
+				
 				.ConvertToGeneSetIdx <- function(., .DListF=.$.DListF, .GList=.$.GList, .minNumGenes=.$.minNumGenes) {
 					.DGList <- foreach(d=iter(.DListF)) %dopar% { #each data set wrap each pathway
 						.res <- foreach(g=iter(.GList)) %do% {
@@ -103,7 +102,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					
 					return(.DGList)
 				}
-								
+				
 				.CalcPval <- function(., .B, .DListF=.$.DListF) {
 					
 					stopifnot(length(.DListF)==length(.$.GListIdx))
@@ -175,7 +174,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				EQC <- function(., nPathCut=NULL, .B=1e4) { 
 					printLog("EQC Started", .$.verbose)
 					.$.GListIdx <- .$.ConvertToGeneSetIdx()
-
+					
 					if(!is.null(nPathCut)) {
 						
 						.Scores <- foreach(i=1:length(.$.GListIdx)) %do% { 
@@ -208,7 +207,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					}
 					.$.PvalOfScores <- .$.CalcPval(.B=.B)
 					names(.$.PvalOfScores) <- names(.$.DListF)
-
+					
 					printLog("EQC Finished", .$.verbose)
 					return(.$.PvalOfScores)
 				}
@@ -236,7 +235,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 						.confu <- table(.reduced, .obs)
 						if(dim(.confu)[1]<2) .confu <- rbind(.confu,c(0,0))
 						if(dim(.confu)[2]<2) .confu <- cbind(.confu,c(0,0))
-
+						
 						fisher.test(.confu, alternative="g")$p.value
 					}
 					names(.$.AQCgScores) <- colnames(.PValMat)
@@ -413,7 +412,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					attr(.$.DistOfStudies,"Upper") <- FALSE
 				}
 				
-				RunQC <- function(., nPath=NULL, B=1e4, pvalCut=.05, pvalAdjust=FALSE, fileForCQCp="c2.all.v3.0.symbols.gmt") {
+				RunQC <- function(., nPath=NULL, B=1e4, pvalCut=.05, pvalAdjust=FALSE, fileForCQCp="c2.all.v3.0.symbols.gmt", isCAQC=FALSE) {
 					if(!file.exists(fileForCQCp)) {
 						res <- Download("MetaQC",fileForCQCp)
 						if (inherits(res, "try-error") | res != 0L) 
@@ -423,26 +422,37 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					.GList <- paste(sub("(.+)[.][^.]+$", "\\1", basename(fileForCQCp)),".rda",sep="")
 					if(!(.$.useCache & file.exists(.GList)))
 						GMT2List(fileForCQCp, saveAs=.GList)
-										
+					
 					.$EQC(nPathCut=nPath, .B=B)
 					.$IQC()
 					.$AQCg(.cutoff=pvalCut, .adjust=pvalAdjust)
 					.$AQCp(.cutoff=pvalCut, .adjust=pvalAdjust, .GList=.GList)
 					
+					.$.CalcScores(isCAQC)
+					
+					return(.$.summary)
+				} 
+				
+				.CalcScores <- function(., isCAQC=FALSE) {
 					.Scores <- cbind.data.frame(IQC=-log10(.$.IScores), EQC=-log10(.$GetPvalOfScores(.$.Names[.$.excluded])),
 							CQCg=-log10(.$.CQCgScores), CQCp=-log10(.$.CQCpScores), AQCg=-log10(.$.AQCgScores), AQCp=-log10(.$.AQCpScores))
-					.ScoresRankSum <- rank(-.Scores$IQC) + rank(-.Scores$EQC) +  rank(rank(-.Scores$CQCg) + rank(-.Scores$AQCg)) + rank(rank(-.Scores$CQCp) + rank(-.Scores$AQCp))
+					if(isCAQC) {
+						.ScoresRankSum <- rank(-.Scores$IQC) + rank(-.Scores$EQC) +  rank(rank(-.Scores$CQCg) + rank(-.Scores$AQCg)) + rank(rank(-.Scores$CQCp) + rank(-.Scores$AQCp))
+						.nScores <- 4
+					} else {
+						.ScoresRankSum <- rank(-.Scores$IQC) + rank(-.Scores$EQC) +  rank(-.Scores$CQCg) + rank(-.Scores$AQCg) + rank(-.Scores$CQCp) + rank(-.Scores$AQCp)
+						.nScores <- 6
+					}
 					
 					.$.Scores <- .Scores[order(.ScoresRankSum),]  
-					.$.summary <- data.frame(Study=rownames(.$.Scores), round(.$.Scores,2), Rank=round(sort(.ScoresRankSum)/4,2)) #ncol(.Scores), signif
+					.$.summary <- data.frame(Study=rownames(.$.Scores), round(.$.Scores,2), Rank=round(sort(.ScoresRankSum)/.nScores,2)) 
 					
 					.tmp <- cbind.data.frame(.$.summary[,1], 
 							foreach(d=iter(.$.summary[,-c(1,ncol(.$.summary))],by="row"),.combine=rbind) %do% {ifelse(d < -log10(.05/length(.$.DListF)), paste(d,'*',sep=''), d)},
 							.$.summary[,ncol(.$.summary)])
 					colnames(.tmp) <- colnames(.$.summary); rownames(.tmp)=1:nrow(.tmp)
 					.$.summary <- .tmp
-					return(.$.summary)
-				} 
+				}
 				
 				#when need to change gene filter other than default
 				SetupGeneFilter <- function(., cutRatioByMean=NULL, cutRatioByVar=NULL, minNumGenes=NULL, maxNApctAllowed=NULL) {
@@ -453,8 +463,8 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					.$.FilterGenes(.$.DListF0)
 					.$.Scores <- NULL
 				}
-								
-				Plot <- function(., .scale.coord.var=4) {
+				
+				Plot <- function(., .scale.coord.var=4, isCAQC=FALSE) {
 					if(is.null(.$.Scores))
 						.$RunQC()
 					.dat <- apply(.$.Scores, 2, function(s) {
@@ -464,11 +474,13 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					.dummy <- apply(.$.Scores, 2, function(s) {
 								(-log10(.05/length(s)) - mean(s)) / sd(s)
 							})
-
-					.dat <- cbind(.dat[,-match(c('CQCg','AQCg'),colnames(.dat))], CAQCg=rowMeans(.dat[,match(c('CQCg','AQCg'),colnames(.dat))]))
-					.dummy <- c(.dummy[-match(c('CQCg','AQCg'),names(.dummy))], CAQCg=mean(.dummy[match(c('CQCg','AQCg'),names(.dummy))]))
-					.dat <- cbind(.dat[,-match(c('CQCp','AQCp'),colnames(.dat))], CAQCp=rowMeans(.dat[,match(c('CQCp','AQCp'),colnames(.dat))]))
-					.dummy <- c(.dummy[-match(c('CQCp','AQCp'),names(.dummy))], CAQCp=mean(.dummy[match(c('CQCp','AQCp'),names(.dummy))]))
+					
+					if(isCAQC) {
+						.dat <- cbind(.dat[,-match(c('CQCg','AQCg'),colnames(.dat))], CAQCg=rowMeans(.dat[,match(c('CQCg','AQCg'),colnames(.dat))]))
+						.dummy <- c(.dummy[-match(c('CQCg','AQCg'),names(.dummy))], CAQCg=mean(.dummy[match(c('CQCg','AQCg'),names(.dummy))]))
+						.dat <- cbind(.dat[,-match(c('CQCp','AQCp'),colnames(.dat))], CAQCp=rowMeans(.dat[,match(c('CQCp','AQCp'),colnames(.dat))]))
+						.dummy <- c(.dummy[-match(c('CQCp','AQCp'),names(.dummy))], CAQCp=mean(.dummy[match(c('CQCp','AQCp'),names(.dummy))]))
+					}
 					
 					.res <- prcomp(.dat, center=FALSE)
 					
@@ -520,7 +532,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 						print(.$.summary)
 					}
 				}
-								
+				
 				GetPvalOfScores <- function(., .excludedN=NULL) {
 					if(is.null(.$.PvalOfScores))
 						.$EQC()
@@ -560,7 +572,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 		stopifnot(all(length(names(GList))>0) & all(!duplicated(names(GList))))   #must be a pathway name & unique
 		stopifnot(all(sapply(GList, is.character)))	#all genes should be a character vector	
 	}
-			
+	
 	.p$.Initialize(.DList=DList, .GList=GList, .filterGenes=filterGenes)
 	
 	return(.p)
