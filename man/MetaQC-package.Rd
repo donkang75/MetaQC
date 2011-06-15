@@ -19,10 +19,10 @@ LazyLoad: \tab yes\cr
 }
 }
 \author{
-Don Kang <donkang75@gmail.com>
+Don Kang (donkang75@gmail.com) and George Tseng (ctseng@pitt.edu)
 }
 \references{
-Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (2011) Meta-QC: Quantitative Quality Assessment for Inclusion/Exclusion Criteria of Genomic Meta-Analysis. 
+Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (2011) Meta-QC: Objective Quality Control and Inclusion/Exclusion Criteria for Genomic Meta-Analysis. 
 }
 \keyword{ QualityControl }
 \keyword{ MetaAnalysis }% __ONLY ONE__ keyword per line

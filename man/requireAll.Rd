@@ -26,7 +26,7 @@ None
 %% ~put references to the literature/web site here ~
 }
 \author{
-Don Kang (donkang75@gmail.com)
+Don Kang (donkang75@gmail.com) and George Tseng (ctseng@pitt.edu)
 }
 \note{
 %%  ~~further notes~~
