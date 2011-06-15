@@ -1,4 +1,4 @@
-MetaQC: Quantitative Quality Assessment for Inclusion/Exclusion Criteria of Genomic Meta-Analysis
+MetaQC: Objective Quality Control and Inclusion/Exclusion Criteria for Genomic Meta-Analysis
 ============================================================================
 
 Introduction
