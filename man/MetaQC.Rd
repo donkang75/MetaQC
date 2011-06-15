@@ -2,7 +2,7 @@
 \alias{MetaQC}
 
 \title{
-MetaQC: Quantitative Quality Assessment for Inclusion/Exclusion Criteria of Genomic Meta-Analysis
+MetaQC: Objective Quality Control and Inclusion/Exclusion Criteria for Genomic Meta-Analysis
 }
 
 \description{
@@ -52,7 +52,7 @@ See examples below.
 Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (2011) Meta-QC: Quantitative Quality Assessment for Inclusion/Exclusion Criteria of Genomic Meta-Analysis. 
 }
 \author{
-Don Kang (donkang75@gmail.com)
+Don Kang (donkang75@gmail.com) and George Tseng (ctseng@pitt.edu)
 }
 \note{
 %%  ~~further notes~~
