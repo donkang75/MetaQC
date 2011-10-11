@@ -136,7 +136,7 @@ union.rec <- function(.list, ...){
 
 Download <- function(pkg, fn) {
 	url <- paste("http://cloud.github.com/downloads/donkang75", pkg, fn, sep="/")
-	res <- try(download.file(url, fn, mode = "wb"))
+	res <- try(download.file(url, fn, mode = "wb"), silent=TRUE)
 	return(res)
 }
 

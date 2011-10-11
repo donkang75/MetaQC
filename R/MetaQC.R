@@ -555,22 +555,25 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				}
 			})
 	
-	if(!file.exists(GList)) {
-		res <- Download("MetaQC",GList)
-		if (inherits(res, "try-error") | res != 0L) 
-			stop(gettextf("download of file '%s' failed!\nPlease download gmt files at http://www.broadinstitute.org/gsea/downloads.jsp", fn))
-	}
-	
-	if(getFileExt(GList)=="gmt") {
-		.GList <- paste(getFileName(GList),".rda",sep="")
-		if(useCache & file.exists(.GList))
-			load(.GList) #loaded as GList
-		else
-			GList <- GMT2List(GList, saveAs=.GList)
-	} else { 
-		stopifnot(is.list(GList)) #GList should be a list of gene sets
+	if(is.list(GList)) { #GList should be a list of gene sets
 		stopifnot(all(length(names(GList))>0) & all(!duplicated(names(GList))))   #must be a pathway name & unique
 		stopifnot(all(sapply(GList, is.character)))	#all genes should be a character vector	
+	} else {
+		if(!file.exists(GList)) {
+			res <- Download("MetaQC",GList)
+			if (inherits(res, "try-error") | res != 0L) {
+				file.remove(GList)	
+				stop(gettextf("download of file '%s' failed!\nPlease download gmt files at http://www.broadinstitute.org/gsea/downloads.jsp", GList))
+			} 
+		}
+		
+		if(getFileExt(GList)=="gmt") {
+			.GList <- paste(getFileName(GList),".rda",sep="")
+			if(useCache & file.exists(.GList))
+				load(.GList) #loaded as GList
+			else
+				GList <- GMT2List(GList, saveAs=.GList)
+		}
 	}
 	
 	.p$.Initialize(.DList=DList, .GList=GList, .filterGenes=filterGenes)
