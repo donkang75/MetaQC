@@ -136,6 +136,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 						}
 						names(.pathList) <- sapply(.pathList,length)
 						
+						#performance significantly degraded by length of .pathList, which is the number of unique pathway sizes
 						.ScoresNullDist <- foreach(b=1:.B, .combine=rbind, .export="printLog") %dopar% {
 							
 							.g <- sample(nrow(.pathMat))							
