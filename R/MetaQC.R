@@ -113,10 +113,9 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 						.d <- .DListF[[i]]
 						.isNA <- any(is.na(.d))
 						
-						.pathMat <- foreach(g=iter(.$.GListIdx[[i]]), .combine=cbind) %dopar% {
-							.pathVec <- rep(0,nrow(.d))
-							.pathVec[g] <- 1
-							return(.pathVec)
+						.pathMat <- matrix(0, nrow(.d), length(.$.GListIdx[[i]]))
+						for(jj in 1:ncol(.pathMat)) {
+							.pathMat[.$.GListIdx[[i]][[jj]], jj] <- 1
 						}
 						rownames(.pathMat) <- 1:nrow(.d) 
 						colnames(.pathMat) <- names(.$.GListIdx[[i]])
@@ -139,6 +138,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 						}
 						names(.pathList) <- sapply(.pathList,length)
 						
+						#performance significantly degraded by length of .pathList, which is the number of unique pathway sizes
 						.ScoresNullDist <- foreach(b=1:.B, .combine=rbind, .export="printLog") %dopar% {
 							
 							.g <- sample(nrow(.pathMat))							
