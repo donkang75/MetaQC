@@ -12,8 +12,8 @@ For each quality control index, the p-values from statistical hypothesis testing
 \tabular{ll}{
 Package: \tab MetaQC\cr
 Type: \tab Package\cr
-Version: \tab 0.1.5\cr
-Date: \tab 2011-06-15\cr
+Version: \tab 0.1.6\cr
+Date: \tab 2011-10-17\cr
 License: \tab GPL-2\cr
 LazyLoad: \tab yes\cr
 }
@@ -22,7 +22,7 @@ LazyLoad: \tab yes\cr
 Don Kang (donkang75@gmail.com) and George Tseng (ctseng@pitt.edu)
 }
 \references{
-Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (2011) Meta-QC: Objective Quality Control and Inclusion/Exclusion Criteria for Genomic Meta-Analysis. 
+Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (2011) MetaQC: Objective Quality Control and Inclusion/Exclusion Criteria for Genomic Meta-Analysis. 
 }
 \keyword{ QualityControl }
 \keyword{ MetaAnalysis }% __ONLY ONE__ keyword per line

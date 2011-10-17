@@ -19,10 +19,10 @@ runQC(QC, nPath=NULL, B=1e4, pvalCut=.05,
 A proto R object which obtained by MetaQC function.
 }
   \item{nPath}{
-The number of top pathways which would be used for EQC calculation. The top pathways are automatically determined by their mean rank of over significance among given studies. It is important that gene sets used for EQC are expected to have higher correlation than background.
+The number of top pathways which would be used for EQC calculation. The top pathways are automatically determined by their mean rank of over significance among given studies. It is important that gene sets used for EQC are expected to have higher correlation than background. For better performance, this should be set as a reasonably small number.
 }
   \item{B}{
-The number of permutation tests used for EQC calculation.
+The number of permutation tests used for EQC calculation. More than 1e4 is recommended.
 }
   \item{pvalCut}{
 P-value threshold used for AQC calculation.
@@ -42,7 +42,7 @@ Gene set used for CQCp calculation. Usually larger gene set is used than EQC cal
 A data frame showing a summary of each quality control score.
 }
 \references{
-Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (2011) Meta-QC: Objective Quality Control and Inclusion/Exclusion Criteria for Genomic Meta-Analysis. 
+Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (2011) MetaQC: Objective Quality Control and Inclusion/Exclusion Criteria for Genomic Meta-Analysis. 
 }
 \author{
 Don Kang (donkang75@gmail.com) and George Tseng (ctseng@pitt.edu)

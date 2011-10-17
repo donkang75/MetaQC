@@ -12,7 +12,9 @@ For each quality control index, the p-values from statistical hypothesis testing
 
 \usage{
 MetaQC(DList, GList, isParallel = FALSE, nCores = NULL, 
-	useCache = TRUE, filterGenes = TRUE, verbose = FALSE)
+	useCache = TRUE, filterGenes = TRUE, 
+	maxNApctAllowed=.3, cutRatioByMean=.4, cutRatioByVar=.4, minNumGenes=5,
+	verbose = FALSE)
 }
 
 \arguments{
@@ -34,6 +36,18 @@ Whether imported gmt file should be saved for the next use. By default, it is tr
   \item{filterGenes}{
 Whether to use gene filtering (recommended).
 }
+  \item{maxNApctAllowed}{
+Filtering out genes which have missing values more than specified ratio (Default .3). Applied if filterGenes is TRUE.
+}
+  \item{cutRatioByMean}{
+Filtering out specified ratio of genes which have least expression value (Default .4). Applied if filterGenes is TRUE.
+}
+  \item{cutRatioByVar}{
+Filtering out specified ratio of genes which have least sample wise expression variance (Default .4). Applied if filterGenes is TRUE. 
+}
+  \item{minNumGenes}{
+Mininum number of genes in a pathway. A pathway which has members smaller than the specified value will be removed.
+}
   \item{verbose}{
 Whether to print out logs.
 }
@@ -49,7 +63,7 @@ Use Print function to view various information.
 See examples below.
 }
 \references{
-Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (2011) Meta-QC: Objective Quality Control and Inclusion/Exclusion Criteria for Genomic Meta-Analysis. 
+Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (2011) MetaQC: Objective Quality Control and Inclusion/Exclusion Criteria for Genomic Meta-Analysis. 
 }
 \author{
 Don Kang (donkang75@gmail.com) and George Tseng (ctseng@pitt.edu)
