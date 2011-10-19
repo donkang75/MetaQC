@@ -19,19 +19,19 @@ Installation
 To install this package, save a proper package file for the target OS to the working directory, then run:
 
 ### Windows            
-[MetaQC_0.1.5.zip] (http://cran.r-project.org/bin/windows/contrib/r-release/MetaQC_0.1.5.zip)
+[MetaQC_0.1.6.zip] (http://cran.r-project.org/bin/windows/contrib/r-release/MetaQC_0.1.6.zip)
 
-        install.packages("MetaQC_0.1.5.zip", repos=NULL, type="win.binary")
+        install.packages("MetaQC_0.1.6.zip", repos=NULL, type="win.binary")
 
 ### Mac OS X            
-[MetaQC_0.1.5.tgz] (http://cran.r-project.org/bin/macosx/leopard/contrib/r-release/MetaQC_0.1.5.tgz)
+[MetaQC_0.1.6.tgz] (http://cran.r-project.org/bin/macosx/leopard/contrib/r-release/MetaQC_0.1.6.tgz)
 
-        install.packages("MetaQC_0.1.5.tgz", repos=NULL, type="mac.binary")
+        install.packages("MetaQC_0.1.6.tgz", repos=NULL, type="mac.binary")
 
 ### Linux            
-[MetaQC_0.1.5.tar.gz] (http://cran.r-project.org/src/contrib/MetaQC_0.1.5.tar.gz)
+[MetaQC_0.1.6.tar.gz] (http://cran.r-project.org/src/contrib/MetaQC_0.1.6.tar.gz)
 
-        install.packages("MetaQC_0.1.5.tar.gz", repos=NULL, type="source")
+        install.packages("MetaQC_0.1.6.tar.gz", repos=NULL, type="source")
 
 Examples
 -------------
