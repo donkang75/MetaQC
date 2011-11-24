@@ -2,7 +2,7 @@
 \alias{MetaQC-package}
 \docType{package}
 \title{
-MetaQC: Quantitative Quality Assessment for Inclusion/Exclusion Criteria of Genomic Meta-Analysis
+MetaQC: Objective Quality Control and Inclusion/Exclusion Criteria for Genomic Meta-Analysis
 }
 \description{
 MetaQC implements our proposed quantitative quality control measures: (1) internal homogeneity of co-expression structure among studies (internal quality control; IQC); (2) external consistency of co-expression structure correlating with pathway database (external quality control; EQC); (3) accuracy of differentially expressed gene detection (accuracy quality control; AQCg) or pathway identification (AQCp); (4) consistency of differential expression ranking in genes (consistency quality control; CQCg) or pathways (CQCp). (See the reference for detailed explanation.)
