@@ -75,4 +75,4 @@ Examples
 
 References
 ----------
-Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (2011) MetaQC: Objective Quality Control and Inclusion/Exclusion Criteria for Genomic Meta-Analysis. (Nucleic Acids Research. accepted)
+Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (2011) MetaQC: Objective Quality Control and Inclusion/Exclusion Criteria for Genomic Meta-Analysis. (Nucleic Acids Research; [doi: 10.1093/nar/gkr1071](http://nar.oxfordjournals.org/cgi/content/abstract/gkr1071))
