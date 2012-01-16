@@ -417,9 +417,10 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				RunQC <- function(., nPath=NULL, B=1e4, pvalCut=.05, pvalAdjust=FALSE, fileForCQCp="c2.all.v3.0.symbols.gmt", isCAQC=FALSE) {
 					if(!file.exists(fileForCQCp)) {
 						res <- Download("MetaQC",fileForCQCp)
-						if (inherits(res, "try-error") | res != 0L) 
+						if (inherits(res, "try-error") | res != 0L) {
 							file.remove(fileForCQCp)
 							stop(gettextf("download of file '%s' failed!\nPlease download gmt files at http://www.broadinstitute.org/gsea/downloads.jsp", fileForCQCp))
+						} 
 					}
 					
 					.GList <- paste(sub("(.+)[.][^.]+$", "\\1", basename(fileForCQCp)),".rda",sep="")
