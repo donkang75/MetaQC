@@ -42,7 +42,7 @@ Gene set used for CQCp calculation. Usually larger gene set is used than EQC cal
 A data frame showing a summary of each quality control score.
 }
 \references{
-Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (2011) MetaQC: Objective Quality Control and Inclusion/Exclusion Criteria for Genomic Meta-Analysis. 
+Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (Nucleic Acids Res. 2012) MetaQC: Objective Quality Control and Inclusion/Exclusion Criteria for Genomic Meta-Analysis. 
 }
 \author{
 Don Kang (donkang75@gmail.com) and George Tseng (ctseng@pitt.edu)

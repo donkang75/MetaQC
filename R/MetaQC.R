@@ -301,7 +301,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 						.dat <- .dat[rowSums(!is.na(.dat))>=3,]
 						.reduced  <- GetEWPval(.dat[,-i])
 						.obs <-  .dat[,i]
-						cor.test(.reduced, .obs, method="spearman", alternative="g")$p.value
+						suppressWarnings(cor.test(.reduced, .obs, method="spearman", alternative="g")$p.value)
 					}
 					names(.$.CQCgScores) <- colnames(.PValMat)
 					.$.CQCgScores <- ifelse(.$.CQCgScores < .Machine$double.xmin, .Machine$double.xmin, .$.CQCgScores)
@@ -356,7 +356,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 						.dat <- .dat[rowSums(!is.na(.dat))>=3,]
 						.reduced  <- GetEWPval(.dat[,-i])
 						.obs <-  .dat[,i]
-						cor.test(.reduced, .obs, method="spearman")$p.value
+						suppressWarnings(cor.test(.reduced, .obs, method="spearman")$p.value)
 					}
 					names(.$.CQCpScores) <- colnames(.PathPValMat)
 					.$.CQCpScores <- ifelse(.$.CQCpScores < .Machine$double.xmin, .Machine$double.xmin, .$.CQCpScores)
