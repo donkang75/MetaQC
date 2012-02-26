@@ -21,12 +21,12 @@ To install this package, save a proper package file for the target OS to the wor
 ### Windows            
 [MetaQC_0.1.9.zip] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.9.zip)
 
-        install.packages("MetaQC_0.1.8.zip", repos=NULL, type="win.binary")
+        install.packages("MetaQC_0.1.9.zip", repos=NULL, type="win.binary")
 
 ### Source based installation
 [MetaQC_0.1.9.tar.gz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.9.tar.gz)
 
-        install.packages("MetaQC_0.1.8.tar.gz", repos=NULL, type="source")
+        install.packages("MetaQC_0.1.9.tar.gz", repos=NULL, type="source")
 
 Examples
 -------------
