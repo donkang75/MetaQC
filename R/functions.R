@@ -104,6 +104,10 @@ rowVars <- function (x, center = NULL, ...) {
 }
 
 GMT2List <- function(f, saveAs=NULL) {
+	trim <- function(x) {
+		sub(" +$", "", sub("^ +", "", x))
+	}
+	
 	con <- file(f, "r", blocking = FALSE)
 	GList <- readLines(con) # empty
 	GList <- lapply(GList, function(x) unlist(strsplit(x, "\t", fixed=T)))
@@ -115,10 +119,6 @@ GMT2List <- function(f, saveAs=NULL) {
 	if(!is.null(saveAs))
 		save(GList, file=saveAs)
 	return(GList)
-}
-
-trim <- function(x) {
-	sub(" +$", "", sub("^ +", "", x))
 }
 
 getFileExt <- function(x) {
