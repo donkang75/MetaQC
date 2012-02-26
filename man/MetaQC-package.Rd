@@ -12,8 +12,8 @@ For each quality control index, the p-values from statistical hypothesis testing
 \tabular{ll}{
 Package: \tab MetaQC\cr
 Type: \tab Package\cr
-Version: \tab 0.1.8\cr
-Date: \tab 2012-01-16\cr
+Version: \tab 0.1.9\cr
+Date: \tab 2012-02-25\cr
 License: \tab GPL-2\cr
 LazyLoad: \tab yes\cr
 }
@@ -52,7 +52,6 @@ Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (Nuclei
     #B is recommended to be >= 1e4 in real application
     runQC(brainQC, B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt")
     plot(brainQC)
-    cleanup(brainQC) #neccessary for windows after using parallel processing
 
     ## For parallel computation with all cores
 	## In windows, only 2 cores are used if not specified explicitly
@@ -61,7 +60,6 @@ Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (Nuclei
 	#B is recommended to be >= 1e4 in real application					
     runQC(brainQC, B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt")
     plot(brainQC)
-    cleanup(brainQC) #neccessary for windows after using parallel processing
 
 	## Real Example which is used in the paper
 	#download the brainFull file 
@@ -71,7 +69,6 @@ Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (Nuclei
 			verbose=TRUE, isParallel=TRUE)
     runQC(brainQC, B=1e4, fileForCQCp="c2.all.v3.0.symbols.gmt") #B was 1e5 in the paper
     plot(brainQC)
-    cleanup(brainQC) #neccessary for windows after using parallel processing
 
 }
 }

@@ -80,7 +80,6 @@ Don Kang (donkang75@gmail.com) and George Tseng (ctseng@pitt.edu)
     #B is recommended to be >= 1e4 in real application
     runQC(brainQC, B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt")
     plot(brainQC)
-    cleanup(brainQC) #neccessary for windows after using parallel processing
 
     ## For parallel computation with all cores
 	## In windows, only 2 cores are used if not specified explicitly
@@ -89,7 +88,6 @@ Don Kang (donkang75@gmail.com) and George Tseng (ctseng@pitt.edu)
 	#B is recommended to be >= 1e4 in real application					
     runQC(brainQC, B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt")
     plot(brainQC)
-    cleanup(brainQC) #neccessary for windows after using parallel processing
 
 	## Real Example which is used in the paper
 	#download the brainFull file 
@@ -99,7 +97,6 @@ Don Kang (donkang75@gmail.com) and George Tseng (ctseng@pitt.edu)
 			verbose=TRUE, isParallel=TRUE)
     runQC(brainQC, B=1e4, fileForCQCp="c2.all.v3.0.symbols.gmt") #B was 1e5 in the paper
     plot(brainQC)
-    cleanup(brainQC) #neccessary for windows after using parallel processing
 
 }
 }

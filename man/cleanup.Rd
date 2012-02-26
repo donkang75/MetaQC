@@ -6,7 +6,7 @@ Cleaning up resources.
 }
 
 \description{
-It is to shutdown the workers used for parallel processing and release resources. It is only necessary in windows.
+It is to shutdown the workers used for parallel processing and release resources. It is only necessary in windows. (Deprecated)
 }
 
 \usage{
