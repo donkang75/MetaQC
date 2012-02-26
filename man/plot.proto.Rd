@@ -10,7 +10,7 @@ It draws a PCA biplot which shows the four QC measures. CQCg and AQCg are combin
 }
 
 \usage{
-plot.proto(x, ...)
+\method{plot}{proto}(x, \dots)
 }
 
 \arguments{

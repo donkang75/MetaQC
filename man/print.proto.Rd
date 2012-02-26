@@ -10,7 +10,7 @@ It prints out the results of all QC measures and standardized mean rank of each 
 }
 
 \usage{
-print.proto(x, ...)
+\method{print}{proto}(x, \dots)
 }
 
 \arguments{

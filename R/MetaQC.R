@@ -46,11 +46,12 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 						requireAll("doMC")
 						registerDoMC()
 					} else { #windows
-						requireAll("doSMP")
+						requireAll("doSNOW")
 						if(is.null(getOption('cores')))
 							options(cores=2)
-						.workers <- startWorkers()
-						registerDoSMP(.workers)
+						registerDoSNOW(makeCluster(getOption('cores'), type = "SOCK"))
+						#.workers <- startWorkers()
+						#registerDoSMP(.workers)
 					}
 				}
 				
