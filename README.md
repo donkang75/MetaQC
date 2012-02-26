@@ -30,8 +30,9 @@ To install this package, save a proper package file for the target OS to the wor
 
 Examples
 -------------
+	    install.packages(c("proto", "foreach"))
+
         library(MetaQC)
-	    requireAll(c("proto", "foreach"))
 
 	   	## Toy Example
 	    data(brain) #already hugely filtered
