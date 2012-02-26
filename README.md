@@ -19,19 +19,14 @@ Installation
 To install this package, save a proper package file for the target OS to the working directory, then run:
 
 ### Windows            
-[MetaQC_0.1.8.zip] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.8.zip)
+[MetaQC_0.1.9.zip] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.9.zip)
 
-        install.packages("MetaQC_0.1.8.zip", repos=NULL, type="win.binary")
+        install.packages("MetaQC_0.1.9.zip", repos=NULL, type="win.binary")
 
-### Mac OS X            
-[MetaQC_0.1.8.tgz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.8.tgz)
+### Source based installation
+[MetaQC_0.1.9.tar.gz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.9.tar.gz)
 
-        install.packages("MetaQC_0.1.8.tgz", repos=NULL, type="mac.binary")
-
-### Linux or source based installation
-[MetaQC_0.1.8.tar.gz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.8.tar.gz)
-
-        install.packages("MetaQC_0.1.8.tar.gz", repos=NULL, type="source")
+        install.packages("MetaQC_0.1.9.tar.gz", repos=NULL, type="source")
 
 Examples
 -------------
@@ -55,7 +50,6 @@ Examples
 	    #B is recommended to be >= 1e4 in real application
 	  	runQC(brainQC, B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt") 
 		plot(brainQC)
-	    cleanup(brainQC) #neccessary for windows after using parallel processing
 
 	    ## For parallel computation with all cores
 		## In windows, only 2 cores are used if not specified explicitly
@@ -63,7 +57,6 @@ Examples
 		#B is recommended to be >= 1e4 in real application					
 	  	runQC(brainQC, B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt") 
 		plot(brainQC)
-	    cleanup(brainQC) #neccessary for windows after using parallel processing
 
 		## Real Example which is used in the paper
 		#download the brainFull file from https://github.com/downloads/donkang75/MetaQC/brainFull.rda
@@ -71,7 +64,6 @@ Examples
 	    brainQC <- MetaQC(brainFull, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=TRUE, verbose=TRUE, isParallel=TRUE)
 	  	runQC(brainQC, B=1e4, fileForCQCp="c2.all.v3.0.symbols.gmt") #B was 1e5 in the paper 
 		plot(brainQC)
-	    cleanup(brainQC) #neccessary for windows after using parallel processing
 
 References
 ----------

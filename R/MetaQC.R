@@ -56,8 +56,10 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				}
 				
 				Cleanup <- function(.) {
-					if(!is.null(.$.workers))
-						stopWorkers(.$.workers)
+					warning("This function was deprecated.\n",
+							"No more needed to call this function.\n")
+#					if(!is.null(.$.workers))
+#						stopWorkers(.$.workers)
 				}
 				
 				.Initialize <- function(., .DList, .GList, .filterGenes) {

@@ -40,7 +40,7 @@ Don Kang (donkang75@gmail.com) and George Tseng (ctseng@pitt.edu)
 \examples{
 	\dontrun{
 	    libs <- c("proto", "foreach", ifelse(.Platform$OS.type == "unix", 
-					"doMC", "doSMP")) #doSMP is available to R > 2.11.0
+					"doMC", "doSNOW")) 
 	    requireAll(libs)
 }
 }
