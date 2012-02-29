@@ -6,11 +6,11 @@
 ### filterGenes : whether to use gene filtering (recommended to reduce dimension for fast computation)
 MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, filterGenes=TRUE, 
 		maxNApctAllowed=.3, cutRatioByMean=.4, cutRatioByVar=.4, minNumGenes=5,
-		verbose=FALSE) {
+		verbose=FALSE, resp.type=c("Twoclass", "Multiclass", "Survival")) {
 	.p <- proto(expr = {
 				.verbose <- verbose
 				.Names <- names(DList)
-				.DListF0 <- NULL
+				#.DListF0 <- NULL
 				.DListF <- NULL 
 				.nFeatures <- NULL
 				.excluded <- NULL
@@ -38,6 +38,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				.workers <- NULL
 				.AQCgScores <- NULL
 				.AQCpScores <- NULL
+				.resp.type <- "Twoclass"
 				
 				if(isParallel) {
 					if(!is.null(nCores))
@@ -50,32 +51,54 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 						if(is.null(getOption('cores')))
 							options(cores=2)
 						registerDoSNOW(makeCluster(getOption('cores'), type = "SOCK"))
-						#.workers <- startWorkers()
-						#registerDoSMP(.workers)
 					}
 				}
 				
 				Cleanup <- function(.) {
 					warning("This function was deprecated.\n",
 							"No more needed to call this function.\n")
-#					if(!is.null(.$.workers))
-#						stopWorkers(.$.workers)
 				}
 				
-				.Initialize <- function(., .DList, .GList, .filterGenes) {
+				.Initialize <- function(., .DList, .GList, .filterGenes, .resp.type) {
 					stopifnot(all(length(names(.DList))>0) & all(!duplicated(names(.DList))))
-					stopifnot(all(sapply(.DList, function(x) length(table(colnames(x))))==2)) #currently support only two classes
+					#stopifnot(all(sapply(.DList, function(x) length(table(colnames(x))))==2)) #currently support only two classes
 					
-					.$.DListF0 <- .$.DListF <- .DList
+					#.$.DListF0 <- 
+					
+					.$.resp.type <- .resp.type
+					
+					.$.DListF <- foreach(d=iter(.DList)) %do% {
+						if(!is.list(d)) {
+							d <- list(x=d, y=colnames(d))
+						} else {
+							if(.resp.type %in% c("Twoclass", "Multiclass")) {
+								stopifnot(!is.null(d$y) && !is.null(colnames(d$x)))
+								colnames(d$x) <- d$y
+								if(!is.null(d$geneid))
+									rownames(d$x) <- d$geneid
+							} else if(.resp.type == "Survival") {
+								stopifnot(!is.null(d$y) && !is.null(d$censoring.status))
+								if(!is.null(d$geneid))
+									rownames(d$x) <- d$geneid
+								mode(d$y) <- "numeric"
+								mode(d$censoring.status) <- "integer"
+							}
+						}
+						mode(d$x) <- "numeric"
+						d
+					}
+					names(.$.DListF) <- .$.Names
+					
+					#.$.DListF <- .DList
 					if(.filterGenes)
-						.$.FilterGenes(.DList)
+						.$.FilterGenes()
 					
 					.$.GList <- .GList
 				}
 				
-				.FilterGenes <- function(., .DList) {
-					.$.DListF <- foreach(dat=iter(.DList)) %dopar% {
-						#FilterGenes(dat, .$.cutRatioByMean, .$.cutRatioByVar)
+				.FilterGenes <- function(.) {
+					.$.DListF <- foreach(d=iter(.$.DListF)) %dopar% {
+						dat <- d$x
 						if(any(is.na(rownames(dat))))
 							dat <- dat[-which(is.na(rownames(dat))),]
 						
@@ -85,6 +108,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 						dat <- dat[-order(.RMrank)[1:floor(nrow(dat)*.$.cutRatioByMean)],]
 						.RVrank <- rank(rowVars(dat, na.rm=T))
 						dat[-order(.RVrank)[1:floor(nrow(dat)*.$.cutRatioByVar)],]
+						list(x=dat, y=d$y, censoring.status=d$censoring.status, geneid=d$geneid)
 					}
 					names(.$.DListF) <- .$.Names
 				}
@@ -92,7 +116,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				.ConvertToGeneSetIdx <- function(., .DListF=.$.DListF, .GList=.$.GList, .minNumGenes=.$.minNumGenes) {
 					.DGList <- foreach(d=iter(.DListF), .packages="foreach") %dopar% { #each data set wrap each pathway
 						.res <- foreach(g=iter(.GList)) %do% {
-							.gs <- na.omit(match(g, rownames(d)))
+							.gs <- na.omit(match(g, rownames(d$x)))
 							if(length(.gs)<.minNumGenes) return(NA)
 							return(as.integer(.gs))
 						}
@@ -113,7 +137,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					stopifnot(length(.DListF)==length(.$.GListIdx))
 					
 					.PvalOfScores <- foreach(i=1:length(.DListF), .combine=c) %do% { 
-						.d <- .DListF[[i]]
+						.d <- .DListF[[i]]$x
 						.isNA <- any(is.na(.d))
 						
 						.pathMat <- matrix(0, nrow(.d), length(.$.GListIdx[[i]]))
@@ -283,7 +307,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					if(is.null(.$.PValMat)) {
 						if(is.null(.$.PValList)) {
 							.$.PValList <- foreach(dat=iter(.$.DListF), .export="GetPVal") %dopar% {
-								GetPVal(dat)
+								GetPVal(dat, .$.resp.type)
 							}
 							names(.$.PValList) <- .$.Names
 						}
@@ -315,7 +339,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					printLog("CQCp Started", .$.verbose)
 					if(is.null(.$.PValMat0)) {
 						.PValList <- foreach(dat=iter(.$.DListF), .export="GetPVal") %dopar% {
-							GetPVal(dat)
+							GetPVal(dat, .$.resp.type)
 						}
 						names(.PValList) <- .$.Names
 						.allGNames <- union.rec(lapply(.PValList,names))
@@ -332,7 +356,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 						.GListIdx <- .$.ConvertToGeneSetIdx(.GList=GList)
 						.PathPValList <- foreach(ii=1:length(.GListIdx), .packages="foreach") %dopar% {
 							.PathPVal <- foreach(jj=iter(.GListIdx[[ii]]), .combine=c) %do% {
-								.gnInPath <- rownames(.$.DListF[[ii]])[jj] #gene names in the pathway
+								.gnInPath <- rownames(.$.DListF[[ii]]$x)[jj] #gene names in the pathway
 								.gMatched <- sort(match(.gnInPath, rownames(.$.PValMat0)))
 								.pvInPath <- .$.PValMat0[.gMatched,ii]
 								.pvOutPath <- na.omit(.$.PValMat0[-.gMatched,ii])
@@ -394,12 +418,12 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					stopifnot(!is.null(.$.DListF))
 					
 					.$.DistOfStudies <- foreach(ii=iter(combinations(length(.$.DListF),2),by="row"), .combine=c, .packages="foreach") %dopar% {
-						.gn <- intersect(rownames(.$.DListF[[ii[1]]]),rownames(.$.DListF[[ii[2]]]))
+						.gn <- intersect(rownames(.$.DListF[[ii[1]]]$x),rownames(.$.DListF[[ii[2]]]$x))
 						
 						.DistOfStudies <- foreach(1:100, .combine=c) %do% { #resampling based to fit practical memory limit
 							..gn <- sample(.gn,length(.gn)*.1) 
 							.CList <- foreach(jj=1:2, .combine=cbind) %do% { 
-								as.dist(cor(t(.$.DListF[[ii[jj]]][match(..gn,rownames(.$.DListF[[ii[jj]]])),]), 
+								as.dist(cor(t(.$.DListF[[ii[jj]]]$x[match(..gn,rownames(.$.DListF[[ii[jj]]]$x)),]), 
 												method=.$.method.cor, use="pairwise.complete.obs"))
 							}						
 							.CList <- na.omit(.CList) #zero variance generate NA
@@ -463,12 +487,13 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				
 				#when need to change gene filter other than default
 				SetupGeneFilter <- function(., cutRatioByMean=NULL, cutRatioByVar=NULL, minNumGenes=NULL, maxNApctAllowed=NULL) {
-					if(!is.null(cutRatioByMean)) .$.cutRatioByMean <- cutRatioByMean
-					if(!is.null(cutRatioByVar)) .$.cutRatioByVar <- cutRatioByVar
-					if(!is.null(minNumGenes)) .$.minNumGenes <- minNumGenes
-					if(!is.null(maxNApctAllowed)) .$.maxNApctAllowed <- maxNApctAllowed
-					.$.FilterGenes(.$.DListF0)
-					.$.Scores <- NULL
+					warning("This function was deprecated.")
+#					if(!is.null(cutRatioByMean)) .$.cutRatioByMean <- cutRatioByMean
+#					if(!is.null(cutRatioByVar)) .$.cutRatioByVar <- cutRatioByVar
+#					if(!is.null(minNumGenes)) .$.minNumGenes <- minNumGenes
+#					if(!is.null(maxNApctAllowed)) .$.maxNApctAllowed <- maxNApctAllowed
+#					.$.FilterGenes(.$.DListF0)
+#					.$.Scores <- NULL
 				}
 				
 				Plot <- function(., .scale.coord.var=4, isCAQC=FALSE) {
@@ -531,7 +556,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					cat("Number of Studies: ", length(.$.DListF), fill=TRUE)
 					cat("", fill=TRUE)
 					cat("Dimension of Each Study:", fill=TRUE)
-					.studies <- sapply(.$.DListF,dim); rownames(.studies) <- c("Genes", "Samples")
+					.studies <- sapply(.$.DListF,function(d) dim(d$x)); rownames(.studies) <- c("Genes", "Samples")
 					print(.studies)
 					cat("", fill=TRUE)
 					if(!is.null(.$.summary)) {
@@ -583,7 +608,9 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 		}
 	}
 	
-	.p$.Initialize(.DList=DList, .GList=GList, .filterGenes=filterGenes)
+	resp.type <- match.arg(resp.type)
+	
+	.p$.Initialize(.DList=DList, .GList=GList, .filterGenes=filterGenes, .resp.type=resp.type)
 	
 	return(.p)
 }
@@ -595,3 +622,4 @@ plot.proto <- function(x, ...) {
 print.proto <- function(x, ...) {
 	x$Print(...)
 }
+

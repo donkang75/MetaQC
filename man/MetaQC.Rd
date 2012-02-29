@@ -14,7 +14,7 @@ For each quality control index, the p-values from statistical hypothesis testing
 MetaQC(DList, GList, isParallel = FALSE, nCores = NULL, 
 	useCache = TRUE, filterGenes = TRUE, 
 	maxNApctAllowed=.3, cutRatioByMean=.4, cutRatioByVar=.4, minNumGenes=5,
-	verbose = FALSE)
+	verbose = FALSE, resp.type = c("Twoclass", "Multiclass", "Survival"))
 }
 
 \arguments{
@@ -50,6 +50,9 @@ Mininum number of genes in a pathway. A pathway which has members smaller than t
 }
   \item{verbose}{
 Whether to print out logs.
+}
+  \item{resp.type}{
+The type of response variable. Three options are: "Twoclass" (unpaired), "Multiclass", "Survival." By default, Twoclass is used
 }
 }
 \details{
