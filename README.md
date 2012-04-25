@@ -19,14 +19,14 @@ Installation
 To install this package, save a proper package file for the target OS to the working directory, then run:
 
 ### Windows            
-[MetaQC_0.1.9.zip] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.9.zip)
+[MetaQC_0.1.10.zip] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.10.zip)
 
-        install.packages("MetaQC_0.1.9.zip", repos=NULL, type="win.binary")
+        install.packages("MetaQC_0.1.10.zip", repos=NULL, type="win.binary")
 
 ### Source based installation
-[MetaQC_0.1.9.tar.gz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.9.tar.gz)
+[MetaQC_0.1.10.tar.gz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.10.tar.gz)
 
-        install.packages("MetaQC_0.1.9.tar.gz", repos=NULL, type="source")
+        install.packages("MetaQC_0.1.10.tar.gz", repos=NULL, type="source")
 
 Examples
 -------------
@@ -64,6 +64,17 @@ Examples
 	    brainQC <- MetaQC(brainFull, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=TRUE, verbose=TRUE, isParallel=TRUE)
 	  	runQC(brainQC, B=1e4, fileForCQCp="c2.all.v3.0.symbols.gmt") #B was 1e5 in the paper 
 		plot(brainQC)
+
+	## Survival Data Example
+	#download Breast data 
+	#from https://github.com/downloads/donkang75/MetaQC/Breast.rda
+	load("Breast.rda")
+    breastQC <- MetaQC(Breast, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=FALSE, 
+			verbose=TRUE, isParallel=TRUE, resp.type="Survival")
+    runQC(breastQC, B=1e4, fileForCQCp="c2.all.v3.0.symbols.gmt") 
+    breastQC
+    plot(breastQC)
+
 
 References
 ----------

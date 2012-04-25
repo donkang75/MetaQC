@@ -71,5 +71,13 @@ Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (Nuclei
     plot(brainQC)
 
 	## Survival Data Example
+	#download Breast data 
+	#from https://github.com/downloads/donkang75/MetaQC/Breast.rda
+	load("Breast.rda")
+    breastQC <- MetaQC(Breast, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=FALSE, 
+			verbose=TRUE, isParallel=TRUE, resp.type="Survival")
+    runQC(breastQC, B=1e4, fileForCQCp="c2.all.v3.0.symbols.gmt") 
+    breastQC
+    plot(breastQC)
 }
 }
