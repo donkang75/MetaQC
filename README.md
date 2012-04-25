@@ -19,18 +19,18 @@ Installation
 To install this package, save a proper package file for the target OS to the working directory, then run:
 
 ### Windows            
-[MetaQC_0.1.10.zip] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.10.zip)
+[MetaQC_0.1.10-1.zip] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.10-1.zip)
 
-        install.packages("MetaQC_0.1.10.zip", repos=NULL, type="win.binary")
+        install.packages("MetaQC_0.1.10-1.zip", repos=NULL, type="win.binary")
 
 ### Source based installation
-[MetaQC_0.1.10.tar.gz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.10.tar.gz)
+[MetaQC_0.1.10-1.tar.gz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.10-1.tar.gz)
 
-        install.packages("MetaQC_0.1.10.tar.gz", repos=NULL, type="source")
+        install.packages("MetaQC_0.1.10-1.tar.gz", repos=NULL, type="source")
 
 Examples
 -------------
-	    install.packages(c("proto", "foreach"))
+	    install.packages(c("proto", "foreach", "iterators"))
 
         library(MetaQC)
 
