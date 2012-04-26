@@ -55,9 +55,6 @@ Whether to print out logs.
 The type of response variable. Three options are: "Twoclass" (unpaired), "Multiclass", "Survival." By default, Twoclass is used
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 A proto R object.
 Use RunQC function to run QC procedure.
@@ -70,9 +67,6 @@ Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (Nuclei
 }
 \author{
 Don Kang (donkang75@gmail.com) and George Tseng (ctseng@pitt.edu)
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

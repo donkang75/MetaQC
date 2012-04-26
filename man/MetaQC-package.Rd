@@ -27,8 +27,6 @@ Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (Nuclei
 \keyword{ QualityControl }
 \keyword{ MetaAnalysis }% __ONLY ONE__ keyword per line
 \keyword{ Microarray }
-\seealso{
-}
 \examples{
 \dontrun{
     requireAll(c("proto", "foreach"))

@@ -16,27 +16,15 @@ requireAll(packages)
 A character vector of required packages. Unavailable packages are going to be installed.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 None
-}
-\references{
-%% ~put references to the literature/web site here ~
 }
 \author{
 Don Kang (donkang75@gmail.com) and George Tseng (ctseng@pitt.edu)
 }
-\note{
-%%  ~~further notes~~
-}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 	\dontrun{
 	    libs <- c("proto", "foreach", ifelse(.Platform$OS.type == "unix", 

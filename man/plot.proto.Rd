@@ -22,9 +22,6 @@ Further arguments to print function.
 }
 
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 NA
 }
@@ -33,9 +30,6 @@ Dongwan D. Kang, Etienne Sibille, Naftali Kaminski, and George C. Tseng. (Nuclei
 }
 \author{
 Don Kang (donkang75@gmail.com) and George Tseng (ctseng@pitt.edu)
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
