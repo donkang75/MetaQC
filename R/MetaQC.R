@@ -208,7 +208,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 						
 						.Scores <- foreach(i=1:length(.$.GListIdx)) %do% { 
 							foreach(g=iter(.$.GListIdx[[i]]), .combine=c) %dopar% {
-								.d <- .$.DListF[[i]] 
+								.d <- .$.DListF[[i]]$x
 								mean(as.dist(abs(cor(t(.d[g,]), use="pairwise.complete.obs", method=.$.method.cor)^.$.l.norm)))^(1/.$.l.norm)
 							}
 						}
