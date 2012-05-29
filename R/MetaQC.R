@@ -60,10 +60,12 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				}
 				
 				.Initialize <- function(., .DList, .GList, .filterGenes, .resp.type) {
-					stopifnot(all(length(names(.DList))>0) & all(!duplicated(names(.DList))))
-					#stopifnot(all(sapply(.DList, function(x) length(table(colnames(x))))==2)) #currently support only two classes
-					
-					#.$.DListF0 <- 
+#					if(length(.DList)<4)
+#						stop("DList should have more than 3 data sets")
+					if(any(length(names(.DList))==0))
+						stop("DList should have names for all data sets")
+					if(any(duplicated(names(.DList))))
+						stop("DList should have unique names for all data sets")
 					
 					.$.resp.type <- .resp.type
 					
@@ -411,7 +413,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					names(.IScores0) <- labels(.dist)
 					printLog("IQC Finished", .$.verbose)
 					
-					.$.IScores <- 1-pnorm( qnorm(.IScores0, qnorm(0.95), 1), -qnorm(0.95), 1)
+					.$.IScores <- pmax(1-pnorm( qnorm(.IScores0, qnorm(0.95), 1), -qnorm(0.95), 1), 1e-20)
 				}
 				
 				.CalcDistOfStudies <- function(.) {
