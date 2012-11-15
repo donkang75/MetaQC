@@ -12,8 +12,8 @@ For each quality control index, the p-values from statistical hypothesis testing
 \tabular{ll}{
 Package: \tab MetaQC\cr
 Type: \tab Package\cr
-Version: \tab 0.1.11\cr
-Date: \tab 2012-08-13\cr
+Version: \tab 0.1.12\cr
+Date: \tab 2012-11-14\cr
 License: \tab GPL-2\cr
 LazyLoad: \tab yes\cr
 }

@@ -116,7 +116,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				}
 				
 				.ConvertToGeneSetIdx <- function(., .DListF=.$.DListF, .GList=.$.GList, .minNumGenes=.$.minNumGenes) {
-					.DGList <- foreach(d=iter(.DListF), .packages="foreach") %dopar% { #each data set wrap each pathway
+					.DGList <- foreach(d=iter(.DListF), .packages=c("foreach","iterators")) %dopar% { #each data set wrap each pathway
 						.res <- foreach(g=iter(.GList)) %do% {
 							.gs <- na.omit(match(g, rownames(d$x)))
 							if(length(.gs)<.minNumGenes) return(NA)
@@ -360,7 +360,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 					if(is.null(.$.PathPValMat)) {
 						load(.GList)
 						.GListIdx <- .$.ConvertToGeneSetIdx(.GList=GList)
-						.PathPValList <- foreach(ii=1:length(.GListIdx), .packages="foreach") %dopar% {
+						.PathPValList <- foreach(ii=1:length(.GListIdx), .packages=c("foreach","iterators")) %dopar% {
 							.PathPVal <- foreach(jj=iter(.GListIdx[[ii]]), .combine=c) %do% {
 								.gnInPath <- rownames(.$.DListF[[ii]]$x)[jj] #gene names in the pathway
 								.gMatched <- sort(match(.gnInPath, rownames(.$.PValMat0)))

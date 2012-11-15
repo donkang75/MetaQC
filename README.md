@@ -19,14 +19,14 @@ Installation
 To install this package, save a proper package file for the target OS to the working directory, then run:
 
 ### Windows            
-[MetaQC_0.1.11.zip] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.11.zip)
+[MetaQC_0.1.12.zip] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.12.zip)
 
-        install.packages("MetaQC_0.1.11.zip", repos=NULL, type="win.binary")
+        install.packages("MetaQC_0.1.12.zip", repos=NULL, type="win.binary")
 
 ### Source based installation
-[MetaQC_0.1.11.tar.gz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.11.tar.gz)
+[MetaQC_0.1.12.tar.gz] (https://github.com/downloads/donkang75/MetaQC/MetaQC_0.1.12.tar.gz)
 
-        install.packages("MetaQC_0.1.11.tar.gz", repos=NULL, type="source")
+        install.packages("MetaQC_0.1.12.tar.gz", repos=NULL, type="source")
 
 Examples
 -------------
