@@ -189,8 +189,8 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 						if(sum(.pathMat.dupCols) > 0) {
 							.dupNum <- colSums(.pathMat)[duplicated(colSums(.pathMat))]
 							.ScoresNullDist <- cbind(.ScoresNullDist, sapply(.dupNum, function(dn) .ScoresNullDist[,as.character(dn)]))
-						} else
-							.ScoresNullDist <- rbind(.Scores, .ScoresNullDist)
+						} 
+						.ScoresNullDist <- rbind(.Scores, .ScoresNullDist)
 						
 						.ScoresNullDist <- foreach(w=iter(.ScoresNullDist, by="col"), .combine=cbind) %dopar% {
 							(.B+2 - rank(w)) / (.B+1)
