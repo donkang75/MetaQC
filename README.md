@@ -43,8 +43,8 @@ Examples
 	runQC(brainQC, B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt") 
 	plot(brainQC)
 	
-	## For parallel computation with all cores
-	## In windows, only 2 cores are used if not specified explicitly
+	## For parallel computation with half cores
+	## In windows, only 3 cores are used if not specified explicitly
 	brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", filterGenes=FALSE, verbose=TRUE, isParallel=TRUE)
 	#B is recommended to be >= 1e4 in real application					
 	runQC(brainQC, B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt") 

@@ -91,15 +91,15 @@ Don Kang (donkang75@gmail.com) and George Tseng (ctseng@pitt.edu)
     plot(brainQC)
 
     ## For parallel computation with only 2 cores
-	## R >= 2.11.0 in windows to use parallel computing
+	## R >= 2.14.0 in windows to use parallel computing
     brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", 
 			filterGenes=FALSE, verbose=TRUE, isParallel=TRUE, nCores=2)
     #B is recommended to be >= 1e4 in real application
     runQC(brainQC, B=1e2, fileForCQCp="c2.all.v3.0.symbols.gmt")
     plot(brainQC)
 
-    ## For parallel computation with all cores
-	## In windows, only 2 cores are used if not specified explicitly
+    ## For parallel computation with half cores
+	## In windows, only 3 cores are used if not specified explicitly
     brainQC <- MetaQC(brain, "c2.cp.biocarta.v3.0.symbols.gmt", 
 			filterGenes=FALSE, verbose=TRUE, isParallel=TRUE)
 	#B is recommended to be >= 1e4 in real application					
