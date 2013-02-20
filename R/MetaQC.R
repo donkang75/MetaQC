@@ -43,15 +43,9 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				if(isParallel) {
 					if(!is.null(nCores))
 						options(cores=nCores)
-					if(.Platform$OS.type == "unix") {
-						requireAll("doMC")
-						registerDoMC()
-					} else { #windows
-						requireAll("doSNOW")
-						if(is.null(getOption('cores')))
-							options(cores=2)
-						registerDoSNOW(makeCluster(getOption('cores'), type = "SOCK"))
-					}
+					
+					requireAll("doParallel")
+					registerDoParallel()
 				}
 				
 				Cleanup <- function(.) {
