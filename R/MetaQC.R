@@ -41,11 +41,11 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				.resp.type <- "Twoclass"
 				
 				if(isParallel) {
-					if(!is.null(nCores))
-						options(cores=nCores)
-					
 					requireAll("doParallel")
 					registerDoParallel()
+
+					if(!is.null(nCores))
+						options(cores=nCores)					
 				}
 				
 				Cleanup <- function(.) {
