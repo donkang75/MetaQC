@@ -42,10 +42,7 @@ MetaQC <- function(DList, GList, isParallel=FALSE, nCores=NULL, useCache=TRUE, f
 				
 				if(isParallel) {
 					requireAll("doParallel")
-					registerDoParallel()
-
-					if(!is.null(nCores))
-						options(cores=nCores)					
+					registerDoParallel(cores=nCores)
 				}
 				
 				Cleanup <- function(.) {
